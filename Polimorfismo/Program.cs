@@ -7,19 +7,16 @@ var p3 = new Pessoa("Manoel",new DateOnly(1987,05,11));
 
 p1.AlterarNome("Marcus Souza Da Silva");
 
-var cachorrinho = new Cachorro() { Nome = "doguinho" };
-var gatinho = new Gato() { Nome = "floquinho" };
-
-p1.Pets.Add(cachorrinho);
-p1.Pets.Add(gatinho);
+p1.Pets.Add(new Cachorro("doguinho"));
+p1.Pets.Add(new Gato("gatinho",02));
 
 
-Console.WriteLine($"Meu nome é {p1.Nome}");
-Console.WriteLine($"Eu tenho {p1.Pets.Count} Pets");
+Console.WriteLine($"Meu nome {p1.Nome}");
+Console.WriteLine($"   Eu tenho {p1.Pets.Count} Pets");
 
 foreach (var animal in p1.Pets)
 {
-    Console.WriteLine($"Meu {animal.GetType().Name} faz {animal.EmiteSom()}");
+    Console.WriteLine($"      Meu {animal.GetType().Name} faz {animal.EmiteSom()}");
 }
 
 public class Pessoa
@@ -40,22 +37,30 @@ public class Pessoa
 
 public abstract class Pet
 {
-    public string Nome { get; set; }
+    public Pet(string nome)
+    {
+        this.Nome= nome;
+    }
+    public string Nome { get; set; } = string.Empty;
+
+    public int Idade { get; set; }
+
     public abstract string EmiteSom();
 }
 
 public class Cachorro : Pet
 {
-	public override string EmiteSom()
-	{
-        return "Au Au";
-	}
+    public Cachorro(string nome) : base(nome) { }
+
+	public override string EmiteSom() => "Au Au";
 }
 
 public class Gato : Pet
 {
-	public override string EmiteSom()
-	{
-		return "Miau";
-	}
+    public Gato(string nome, int idade) : base(nome)
+    {
+        this.Idade= idade;
+    }
+
+    public override string EmiteSom() => "Miau";
 }
